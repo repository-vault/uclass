@@ -1,0 +1,23 @@
+{
+  "name": "uclass",
+  "version": "1.0.0",
+  "description": "minitools.js is a micro class that mimic mootools' base Class.js & Class.Mutator.Bind syntax, without the inheritence stack. There is no runtime overload as this is just a syntax wrapper around javascript native Prototype.\r Feel free to switch to a proper framework (e.g. mootools :)  anytime after.",
+  "main": "uClass.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/131/minitools.js.git"
+  },
+  "keywords": [
+    "mootools",
+    "prime"
+  ],
+  "author": "Francois Leurent <131.js@cloudyks.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/131/minitools.js/issues"
+  },
+  "homepage": "https://github.com/131/minitools.js"
+}

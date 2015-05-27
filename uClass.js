@@ -3,7 +3,7 @@ Function.prototype.static = function(){
   return this;
 }
 
-var µClass = exports.µClass = function(obj){
+var µClass = function(obj){
   var out = function(){
     if(obj.Binds) obj.Binds.forEach(function(f){
       var original = this[f];
@@ -19,7 +19,16 @@ var µClass = exports.µClass = function(obj){
         out.prototype[i] = obj[i];
     }
   }
+
+  if(obj.Implements)
+    obj.Implements.forEach(function(Mixin){
+      out.implements(new Mixin);
+    });
   out.implements(obj);
+
   return out;
 };
 
+
+
+module.exports = µClass;
