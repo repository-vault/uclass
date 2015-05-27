@@ -1,9 +1,17 @@
-var EventEmitter = function(){}
+var Class = require('uclass');
 
-EventEmitter.prototype = {
+var EventEmitter = new Class({
+  Binds : ['on', 'off', 'once', 'emit'],
+
   callbacks : {},
 
-  fireEvent:function(event, payload){
+  initialize : function() {
+    this.addEvent = this.on;
+    this.remoteListener = this.off;
+    this.fireEvent = this.emit;
+  },
+
+  emit:function(event, payload){
     if(!this.callbacks[event])
       this.callbacks[event] = [];
 
@@ -31,12 +39,12 @@ EventEmitter.prototype = {
     this.on(event, once);
   },
 
-  removeListener:function(event, callback){
+  off:function(event, callback){
     var i = (this.callbacks[event] || []).indexOf(callback);
     if(i == -1)
       return;
     this.callbacks[event].splice(i);
   },
-};
+});
 
 module.exports = EventEmitter;
