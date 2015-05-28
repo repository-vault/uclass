@@ -3,7 +3,7 @@ Function.prototype.static = function(){
   return this;
 }
 
-var µClass = function(obj){
+var uClass = function(obj){
   var out = function(){
     if(obj.Binds) obj.Binds.forEach(function(f){
       var original = this[f];
@@ -31,4 +31,4 @@ var µClass = function(obj){
 
 
 
-module.exports = µClass;
+module.exports = uClass;

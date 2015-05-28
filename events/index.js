@@ -7,7 +7,7 @@ var EventEmitter = new Class({
 
   initialize : function() {
     this.addEvent = this.on;
-    this.remoteListener = this.off;
+    this.removeListener = this.off;
     this.fireEvent = this.emit;
   },
 
