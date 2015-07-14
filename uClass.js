@@ -1,5 +1,7 @@
 var hasOwn = require("mout/object/hasOwn");
 var create = require("mout/lang/createObject");
+var kindOf = require("mout/lang/kindOf");
+
 
 Function.prototype.static = function(){
   this.$static = true;
@@ -12,7 +14,7 @@ var verbs = /^initialize|Implements|Extends$/
 
 var implement = function(obj){
   for(var key in obj) {
-    if (key.match(verbs)) continue;
+    //if (key.match(verbs)) continue;
 
     if((typeof obj[key] == 'function') && obj[key].$static)
       this[key] = obj[key];
@@ -27,11 +29,14 @@ var implement = function(obj){
 
 var uClass = function(proto){
 
+  if (kindOf(proto) === "Function") proto = {initialize: proto};
+
   var superprime = proto.Extends;
 
   var constructor = (hasOwn(proto, "initialize")) ? proto.initialize : (superprime) ? function(){
         return superprime.apply(this, arguments)
     } : function(){};
+
 
   var out = function() {
       //autobinding takes place here
@@ -43,12 +48,8 @@ var uClass = function(proto){
     constructor.apply(this, arguments);
   }
 
-  out.implements = implement;
+  out.implement = implement;
 
-  if(proto.Implements)
-    proto.Implements.forEach(function(Mixin){
-      out.implements(new Mixin);
-    });
 
   if (superprime) {
     // inherit from superprime
@@ -60,7 +61,15 @@ var uClass = function(proto){
       cproto.constructor = out
   }
 
-  out.implements(proto);
+  if(proto.Implements) {
+
+    if (kindOf(proto.Implements) !== "Array")
+      proto.Implements = [proto.Implements];
+    proto.Implements.forEach(function(Mixin){
+      out.implement(new Mixin);
+    });
+  }
+  out.implement(proto);
 
   return out;
 };
