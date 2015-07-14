@@ -1,13 +1,13 @@
 "use strict";
 
 var expect = require('expect.js')
-var prime = require('../index')
+var Class = require('../')
 
-var Animal = prime({
+var Animal = new Class({
 
     initialized: false,
 
-    constructor: function(name, sound){
+    initialize: function(name, sound){
         this.name = name;
         this.sound = sound || '';
         this.initialized = true;
@@ -23,14 +23,16 @@ var Animal = prime({
 
 });
 
-var Cat = prime({
 
-    inherits: Animal,
+
+var Cat = new Class({
+
+    Extends: Animal,
 
     ferocious: false,
 
-    constructor: function(name, sound){
-        Cat.parent.constructor.call(this, name, sound || 'miao');
+    initialize: function(name, sound){
+        Cat.parent.initialize.call(this, name, sound || 'miao');
     },
 
     eat: function(){
@@ -43,14 +45,17 @@ var Cat = prime({
 
 });
 
-var Lion = prime({
 
-    inherits: Cat,
+
+
+var Lion = new Class({
+
+    Extends: Cat,
 
     ferocious: true,
 
-    constructor: function(name){
-        Lion.parent.constructor.call(this, name, "rarr");
+    initialize: function(name){
+        Lion.parent.initialize.call(this, name, "rarr");
     },
 
     eat: function(){
@@ -59,7 +64,7 @@ var Lion = prime({
 
 });
 
-var Actions = prime({
+var Actions = new Class({
 
     jump: function(){
         return 'actions:jump:' + this.name;
@@ -71,7 +76,8 @@ var Actions = prime({
 
 });
 
-var Attributes = prime({
+
+var Attributes = new Class({
 
     color: function(){
         return 'attributes:color:' + this.name;
@@ -83,11 +89,18 @@ var Attributes = prime({
 
 });
 
-var One = prime({})
-var Two = prime({inherits: One, constructor: function(){
+
+
+
+
+var One = new Class({})
+var Two = new Class({Extends: One, initialize: function(){
     this.id = "TWO"
 }})
-var Three = prime({inherits: Two})
+var Three = new Class({Extends: Two});
+
+
+
 
 describe("prime constructors", function(){
 
@@ -150,7 +163,7 @@ describe('prime creation', function(){
     });
 
     it("should accept functions as constructors", function(){
-        var Dog = prime(function(name) {
+        var Dog = new Class(function(name) {
             this.name = name;
         });
         var rover = new Dog('rover');
@@ -158,9 +171,9 @@ describe('prime creation', function(){
     });
 
     it("should use mixin to implement any number of primes", function(){
-        var Dog = prime({
-            inherits: Animal,
-            mixin: [Actions, Attributes]
+        var Dog = new Class({
+            Extends: Animal,
+            Implements: [Actions, Attributes]
         });
 
         var rover = new Dog('rover');
@@ -173,9 +186,9 @@ describe('prime creation', function(){
         expect(rover.size()).to.be('attributes:size:rover');
         expect(rover.color()).to.be('attributes:color:rover');
 
-        var Fox = prime({
-            inherits: Animal,
-            mixin: Actions
+        var Fox = new Class({
+            Extends: Animal,
+            Implements: Actions
         });
 
         var roger = new Fox('roger');
@@ -185,8 +198,8 @@ describe('prime creation', function(){
     });
 
     it("should alter the prime's prototype when implementing new methods", function(){
-        var Dog = prime({
-            inherits: Animal
+        var Dog = new Class({
+            Extends: Animal
         });
 
         var rover = new Dog('rover');
@@ -204,8 +217,8 @@ describe('prime creation', function(){
     });
 
     it("should alter the prime's prototype when implementing new methods into the super prime", function(){
-        var Dog = prime({
-            inherits: Animal
+        var Dog = new Class({
+            Extends: Animal
         });
 
         var rover = new Dog('rover');
@@ -223,8 +236,8 @@ describe('prime creation', function(){
     });
 
     it("should alter the prime's prototype when overwriting methods in the super prime", function(){
-        var Dog = prime({
-            inherits: Animal
+        var Dog = new Class({
+            Extends: Animal
         });
 
         var rover = new Dog('rover');
@@ -247,8 +260,8 @@ describe('prime creation', function(){
 describe('prime::implement', function(){
 
     it('should implement an object', function(){
-        var Dog = prime({
-            inherits: Animal
+        var Dog = new Class({
+            Extends: Animal
         });
 
         Dog.implement(new Actions);
@@ -261,8 +274,8 @@ describe('prime::implement', function(){
     });
 
     it('should implement any number of objects', function(){
-        var Dog = prime({
-            inherits: Animal
+        var Dog = new Class({
+            Extends: Animal
         });
 
         Dog.implement(new Actions).implement(new Attributes);
@@ -277,8 +290,8 @@ describe('prime::implement', function(){
     });
 
     it('should implement key-value objects', function(){
-        var Dog = prime({
-            inherits: Animal
+        var Dog = new Class({
+            Extends: Animal
         });
 
         Dog.implement({
@@ -302,9 +315,9 @@ describe('prime toString', function(){
 
     it('should allow to implement toString', function(){
 
-        var Person = prime({
+        var Person = new Class({
 
-            constructor: function(name){
+            initialize: function(name){
                 this.name = name;
             },
 
@@ -314,9 +327,9 @@ describe('prime toString', function(){
 
         });
 
-        var Italian = prime({
+        var Italian = new Class({
 
-            inherits: Person,
+            Extends: Person,
 
             toString: function(){
                 return "It's me, " + this.name;
