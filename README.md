@@ -1,7 +1,9 @@
 # Motivation
 
-uclass is a micro class that mimic mootools' base Class.js & Class.Mutator.Bind syntax, without the inheritence stack. There is no runtime overload as this is just a syntax wrapper around javascript native Prototype.
-Feel free to switch to a proper framework (e.g. prime/mootools :)  anytime after.
+uclass is a micro class that mimic mootools' base Class.js & Class.Mutator.Bind syntax, with prime's inheritance stack (as in, explicit parent binding). There is no runtime overload as this is just a syntax wrapper around javascript native Prototype.
+
+* As in prime, uclass use mout for javascript utilities.
+* As in primish, uclass keep the old "Extends" & "Implements" design/syntax.
 
 
 # Example
@@ -43,7 +45,6 @@ Implements : [
 }
 
 ```
-
 
 #License
 MIT License style, please distribute & credit me somewhere.
