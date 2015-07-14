@@ -1,30 +1,66 @@
+var hasOwn = require("mout/object/hasOwn");
+var create = require("mout/lang/createObject");
+
 Function.prototype.static = function(){
   this.$static = true;
   return this;
 }
 
-var uClass = function(obj){
-  var out = function(){
-    if(obj.Binds) obj.Binds.forEach(function(f){
-      var original = this[f];
-      if(original) this[f] = original.bind(this);
-    }.bind(this));
-    obj.initialize.apply(this, arguments);
-  }
-  out.implements = function(obj){
-    for(var i in obj) {
-      if((typeof obj[i] == 'function') && obj[i].$static)
-        out[i] = obj[i];
-      else
-        out.prototype[i] = obj[i];
-    }
+//from http://javascript.crockford.com/prototypal.html
+
+var verbs = /^initialize|Implements|Extends$/
+
+var implement = function(obj){
+  for(var key in obj) {
+    if (key.match(verbs)) continue;
+
+    if((typeof obj[key] == 'function') && obj[key].$static)
+      this[key] = obj[key];
+    else
+      this.prototype[key] = obj[key];
   }
 
-  if(obj.Implements)
-    obj.Implements.forEach(function(Mixin){
+  return this;
+}
+
+
+
+var uClass = function(proto){
+
+  var superprime = proto.Extends;
+
+  var constructor = (hasOwn(proto, "initialize")) ? proto.initialize : (superprime) ? function(){
+        return superprime.apply(this, arguments)
+    } : function(){};
+
+  var out = function() {
+      //autobinding takes place here
+    if(proto.Binds) proto.Binds.forEach(function(f){
+      var original = this[f];
+      if(original) this[f] = original.bind(this);
+    }, this);
+
+    constructor.apply(this, arguments);
+  }
+
+  out.implements = implement;
+
+  if(proto.Implements)
+    proto.Implements.forEach(function(Mixin){
       out.implements(new Mixin);
     });
-  out.implements(obj);
+
+  if (superprime) {
+    // inherit from superprime
+      var superproto = superprime.prototype;
+      var cproto = out.prototype = create(superproto);
+      // setting constructor.parent to superprime.prototype
+      // because it's the shortest possible absolute reference
+      out.parent = superproto;
+      cproto.constructor = out
+  }
+
+  out.implements(proto);
 
   return out;
 };
