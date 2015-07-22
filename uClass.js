@@ -52,8 +52,8 @@ var uClass = function(proto){
   if (superprime) {
     // inherit from superprime
       var superproto = superprime.prototype;
-      if(superproto.Binds && proto.Binds)
-        proto.Binds = proto.Binds.concat(superproto.Binds);
+      if(superproto.Binds)
+        proto.Binds = (proto.Binds || []).concat(superproto.Binds);
 
       var cproto = out.prototype = create(superproto);
       // setting constructor.parent to superprime.prototype
@@ -67,7 +67,7 @@ var uClass = function(proto){
     if (kindOf(proto.Implements) !== "Array")
       proto.Implements = [proto.Implements];
     proto.Implements.forEach(function(Mixin){
-      out.implement(new Mixin());
+      out.implement(new Mixin);
     });
   }
   out.implement(proto);
