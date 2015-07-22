@@ -10,18 +10,21 @@ Function.prototype.static = function(){
 
 //from http://javascript.crockford.com/prototypal.html
 
-var verbs = /^initialize|Implements|Extends$/
+var verbs = /^Implements|Extends$/
 
 var implement = function(obj){
   for(var key in obj) {
-    //if (key.match(verbs)) continue;
-
+    if(key.match(verbs)) continue;
     if((typeof obj[key] == 'function') && obj[key].$static)
       this[key] = obj[key];
     else
       this.prototype[key] = obj[key];
   }
+  if('Binds' in obj) {
+      console.log("Allbind",  obj.Binds, this.Binds);
 
+
+  }
   return this;
 }
 
@@ -29,7 +32,7 @@ var implement = function(obj){
 
 var uClass = function(proto){
 
-  if (kindOf(proto) === "Function") proto = {initialize: proto};
+  if(kindOf(proto) === "Function") proto = {initialize: proto};
 
   var superprime = proto.Extends;
 
@@ -54,19 +57,22 @@ var uClass = function(proto){
   if (superprime) {
     // inherit from superprime
       var superproto = superprime.prototype;
+      if(superproto.Binds && proto.Binds)
+        proto.Binds = proto.Binds.concat(superproto.Binds);
+
       var cproto = out.prototype = create(superproto);
       // setting constructor.parent to superprime.prototype
       // because it's the shortest possible absolute reference
       out.parent = superproto;
       cproto.constructor = out
+
   }
 
   if(proto.Implements) {
-
     if (kindOf(proto.Implements) !== "Array")
       proto.Implements = [proto.Implements];
     proto.Implements.forEach(function(Mixin){
-      out.implement(new Mixin);
+      out.implement(new Mixin());
     });
   }
   out.implement(proto);
