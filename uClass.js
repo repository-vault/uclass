@@ -20,11 +20,6 @@ var implement = function(obj){
     else
       this.prototype[key] = obj[key];
   }
-  if('Binds' in obj) {
-      console.log("Allbind",  obj.Binds, this.Binds);
-
-
-  }
   return this;
 }
 
