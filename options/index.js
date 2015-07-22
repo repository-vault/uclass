@@ -3,16 +3,19 @@ var merge = require("mout/object/merge")
 
 var Options = new Class({
 
-  initialize : function(){
-    if(!this.options)
-      this.options = {};
-    //this.options = should clone here 
-  },
-
   setOptions: function(options){
-      var args = [{}, this.options]
-      args.push.apply(args, arguments)
-      this.options = merge.apply(null, args)
+      var optionsStack = Array.prototype.slice.call(arguments,0),
+          tmp = Object.getPrototypeOf(this);
+      while(tmp) {
+        optionsStack.push(tmp.options);
+        if(!tmp.constructor)
+          break;
+        tmp = tmp.constructor.parent;
+      }
+      optionsStack.push({});
+      optionsStack.reverse();
+
+      this.options = merge.apply(null, optionsStack)
       return this
   }
 });
