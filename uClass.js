@@ -1,5 +1,6 @@
 var hasOwn = require("mout/object/hasOwn");
 var create = require("mout/lang/createObject");
+var merge = require("mout/object/merge");
 var kindOf = require("mout/lang/kindOf");
 
 
@@ -10,7 +11,7 @@ Function.prototype.static = function(){
 
 //from http://javascript.crockford.com/prototypal.html
 
-var verbs = /^Implements|Extends$/
+var verbs = /^Implements|Extends|Binds$/
 
 var implement = function(obj){
   for(var key in obj) {
@@ -43,6 +44,12 @@ var uClass = function(proto){
       if(original) this[f] = original.bind(this);
     }, this);
 
+      //clone non function/static properties to current instance
+    for(var key in out.prototype) {
+      if(key.match(verbs) || typeof out.prototype[key] == 'function' || typeof(out.prototype[key]) != "object" ) continue;
+      this[key] = merge({}, this[key]); //create(null, this[key]);
+    }
+
     constructor.apply(this, arguments);
   }
 
@@ -71,6 +78,7 @@ var uClass = function(proto){
     });
   }
   out.implement(proto);
+  out.prototype.Binds = proto.Binds;
 
   return out;
 };
