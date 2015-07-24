@@ -5,6 +5,7 @@ var okeys = require('mout/object/keys')
 var expect = require('expect.js')
 var Class = require('../')
 
+
 var Animal = new Class({
     paths : {},
     four: 4,
@@ -23,8 +24,55 @@ var Animal = new Class({
     },
 
 });
+/*
 
 
+function uclass(proto){
+  var requested_constructor = object.initialize || function()[};
+
+  var baseFuncs = {};
+  for(var key in proto) {
+    var isProtoFunc = typeof proto[key] == "function";
+    if(proto.Binds)
+      isProtoFunc &= proto.Binds.indexOf(key) == -1;
+
+    if(isProtoFunc) {
+      baseFuncs[key] = proto[key];
+      delete  proto[key];
+    }
+  }
+  
+  var constructor = function(){
+    var self = this;
+
+    for(var key in proto) {
+      
+      if(typeof proto[key] == "function')
+        this[key] = proto[key].bind(this);
+      if(typeof proto[key] == "object')
+        this[key] = Object.merge({}, proto[key]);
+      elseif(typeof proto[key] == "array')
+        this[key] = proto[key].slice();
+      else
+        this[key] = proto[key];
+
+    }
+
+    requested_constructor.apply(this, arguments);
+  }
+
+  constructor.prototype = baseFuncs;
+  return constructor;
+}
+
+
+
+
+
+
+
+
+*/
 
 describe("Simple stack", function(){
 
