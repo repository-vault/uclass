@@ -32,17 +32,16 @@ var uClass = function(proto){
 
   var superprime = proto.Extends;
 
-  var constructor = (hasOwn(proto, "initialize")) ? proto.initialize : (superprime) ? function(){
-        return superprime.apply(this, arguments)
-    } : function(){};
+  var constructor = (hasOwn(proto, "initialize")) ? proto.initialize : superprime ? superprime : function(){};
+
 
 
   var out = function() {
     var self = this;
       //autobinding takes place here
     if(proto.Binds) proto.Binds.forEach(function(f){
-      var original = proto[f];
-      if(original) self[f] = proto[f].bind(self);
+      var original = self[f];
+      if(original) self[f] = self[f].bind(self);
     });
 
       //clone non function/static properties to current instance
@@ -63,7 +62,6 @@ var uClass = function(proto){
         proto.Implements = [proto.Implements];
 
       proto.Implements.forEach(function(Mixin){
-        debugger;
         Mixin.call(self);
       });
     }
@@ -81,6 +79,9 @@ var uClass = function(proto){
       var superproto = superprime.prototype;
       if(superproto.Binds)
         proto.Binds = (proto.Binds || []).concat(superproto.Binds);
+
+      if(superproto.Implements)
+        proto.Implements = (proto.Implements || []).concat(superproto.Implements);
 
       var cproto = out.prototype = create(superproto);
       // setting constructor.parent to superprime.prototype
@@ -102,6 +103,8 @@ var uClass = function(proto){
   out.implement(proto);
   if(proto.Binds)
      out.prototype.Binds = proto.Binds;
+  if(proto.Implements)
+     out.prototype.Implements = proto.Implements;
 
   return out;
 };
