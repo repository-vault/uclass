@@ -1,4 +1,6 @@
 var Class = require('uclass');
+var guid  = require('mout/random/guid');
+var forIn  = require('mout/object/forIn');
 
 var EventEmitter = new Class({
   Binds : ['on', 'off', 'once', 'emit'],
@@ -13,11 +15,11 @@ var EventEmitter = new Class({
 
   emit:function(event, payload){
     if(!this.callbacks[event])
-      this.callbacks[event] = [];
+      return;
 
     var args = Array.prototype.slice.call(arguments, 1);
 
-    this.callbacks[event].forEach(function(callback){
+    forIn(this.callbacks[event], function(callback){
       callback.apply(null, args);
     });
   },
@@ -25,8 +27,8 @@ var EventEmitter = new Class({
 
   on:function(event, callback){
     if(!this.callbacks[event])
-      this.callbacks[event] = [];
-    this.callbacks[event].push(callback);
+      this.callbacks[event] = {};
+    this.callbacks[event][guid()] = callback;
   },
 
   once:function(event, callback){
@@ -40,10 +42,10 @@ var EventEmitter = new Class({
   },
 
   off:function(event, callback){
-    var i = (this.callbacks[event] || []).indexOf(callback);
-    if(i == -1)
-      return;
-    this.callbacks[event].splice(i);
+    forIn(this.callbacks[event] || {}, function(v, k) {
+      if(v == callback)
+        delete this.callbacks[event][k];
+    }, this);
   },
 });
 

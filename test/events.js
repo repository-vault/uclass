@@ -3,53 +3,75 @@
 var expect = require('expect.js')
 var Class = require('../')
 
-var ProtoAnimal = new Class({
+var Time = new Class({
+  Binds : ['add_minute', 'add_houre'],
   Implements: [require('../events')],
-  
-});
 
-var Animal = new Class({
-  Binds : ['walk', 'step'],
-  Extends : ProtoAnimal,
-
-  initialize : function(position){
-    this.position  = position;
-    this.on("tick", this.walk);
-  },
-
-  step : function(i){
-    this.position += i;
-  },
-
-  walk : function(){
-    this.step(1);
-  },
+  foo : 'bar',
 
 });
 
 
 describe("events testing", function(){
 
-    it("should trigger events", function(){
-        var cat = new Animal(1);
 
-        expect(cat.position).to.be(1);
-        cat.walk();
-        cat.walk();
-        expect(cat.position).to.be(3);
-        cat.emit("tick");
-        expect(cat.position).to.be(4);
+    it("should fire every time", function(){
+        var time = new Time(8, 55);
+        var a = 0, inc = function(){
+            a += 1;
+        };
+        time.on("fooa", inc);
+        time.emit("fooa");
+
+        expect(a).to.be(1);
+        time.emit("fooa");
+        expect(a).to.be(2);
+    });
 
 
-        var dog = new Animal(1);
 
-        expect(dog.position).to.be(1);
-        dog.walk();
-        dog.walk();
-        expect(dog.position).to.be(3);
-        dog.emit("tick");
-        expect(dog.position).to.be(4);
 
-    })
+    it("should allow multiple subscriptions", function(){
+        var time = new Time(8, 55);
+        var b = 0, a = 0, ainc = function(){
+            a += 1;
+        }, binc = function(){
+            b += 1;
+        };
+
+        time.once("foo", ainc);
+        time.on("foo", binc);
+
+
+        time.emit("foo");
+        expect(a).to.be(1);
+        expect(b).to.be(1);
+    });
+
+
+    if(false) it("should support complex mixing once & on", function(){
+        var time = new Time(8, 55);
+        var b = 0, a = 0, ainc = function(){
+            a += 1;
+        }, binc = function(){
+            b += 1;
+        };
+
+        time.once("foo", ainc);
+        time.on("foo", binc);
+
+
+        time.emit("foo");
+        expect(a).to.be(1);
+        expect(b).to.be(1);
+
+        time.emit("foo");
+        expect(a).to.be(1);
+        expect(b).to.be(2);
+
+    });
+
+
+
 
 });
