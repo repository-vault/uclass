@@ -38,11 +38,12 @@ var uClass = function(proto){
 
 
   var out = function() {
+    var self = this;
       //autobinding takes place here
     if(proto.Binds) proto.Binds.forEach(function(f){
-      var original = this[f];
-      if(original) this[f] = original.bind(this);
-    }, this);
+      var original = proto[f];
+      if(original) self[f] = proto[f].bind(self);
+    });
 
       //clone non function/static properties to current instance
     for(var key in out.prototype) {
@@ -50,12 +51,24 @@ var uClass = function(proto){
 
       if(key.match(verbs) || t === "Function") continue;
       if(t == "Object")
-        this[key] = merge({}, this[key]); //create(null, this[key]);
+        self[key] = merge({}, self[key]); //create(null, self[key]);
       else if(t == "Array")
-        this[key] = v.slice(); //clone ??
+        self[key] = v.slice(); //clone ??
       else
-        this[key] = v;
+        self[key] = v;
     }
+
+    if(proto.Implements) {
+      if (kindOf(proto.Implements) !== "Array")
+        proto.Implements = [proto.Implements];
+
+      proto.Implements.forEach(function(Mixin){
+        debugger;
+        Mixin.call(self);
+      });
+    }
+
+
 
     constructor.apply(this, arguments);
   }
@@ -77,13 +90,15 @@ var uClass = function(proto){
 
   }
 
-  if(proto.Implements) {
+
+ if(proto.Implements) {
     if (kindOf(proto.Implements) !== "Array")
       proto.Implements = [proto.Implements];
     proto.Implements.forEach(function(Mixin){
-      out.implement(new Mixin);
+      out.implement(Mixin.prototype);
     });
   }
+
   out.implement(proto);
   if(proto.Binds)
      out.prototype.Binds = proto.Binds;
