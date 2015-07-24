@@ -4,7 +4,7 @@
   "description": "uclass is a micro class that mimic mootools' base Class.js & Class.Mutator.Bind syntax, without the inheritence stack. There is no runtime overload as this is just a syntax wrapper around javascript native Prototype.\r Feel free to switch to a proper framework (e.g. mootools :)  anytime after.",
   "main": "uClass.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node node_modules/mocha/bin/mocha test/*"
   },
   "repository": {
     "type": "git",

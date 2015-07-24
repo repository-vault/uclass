@@ -46,8 +46,15 @@ var uClass = function(proto){
 
       //clone non function/static properties to current instance
     for(var key in out.prototype) {
-      if(key.match(verbs) || typeof out.prototype[key] == 'function' || typeof(out.prototype[key]) != "object" ) continue;
-      this[key] = merge({}, this[key]); //create(null, this[key]);
+      var v = out.prototype[key], t = kindOf(v);
+
+      if(key.match(verbs) || t === "Function") continue;
+      if(t == "Object")
+        this[key] = merge({}, this[key]); //create(null, this[key]);
+      else if(t == "Array")
+        this[key] = v.slice(); //clone ??
+      else
+        this[key] = v;
     }
 
     constructor.apply(this, arguments);
@@ -78,7 +85,8 @@ var uClass = function(proto){
     });
   }
   out.implement(proto);
-  out.prototype.Binds = proto.Binds;
+  if(proto.Binds)
+     out.prototype.Binds = proto.Binds;
 
   return out;
 };
