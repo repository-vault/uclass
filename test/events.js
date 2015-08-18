@@ -24,6 +24,8 @@ describe("events testing", function(){
         };
         time.on("fooa", inc);
         time.emit("fooa");
+        time.emit("this is an unknown event with no effect");
+        time.off("this is an unknown event with no effect");
 
         expect(a).to.be(1);
         time.emit("fooa");

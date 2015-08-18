@@ -1,7 +1,7 @@
 "use strict";
 
 var expect = require('expect.js')
-var Class = require('uclass');
+var Class = require('../');
 
 
 var Foo = new Class({
@@ -12,8 +12,14 @@ var Foo = new Class({
 
 
 var Interval = new Class({
+  Binds : ['lol'],
   Implements : [Foo],
+  lol : function(){
+
+  }
 });
+
+
 
 var Instance = new Class({
   Extends : Interval,
@@ -32,5 +38,6 @@ describe("Complex inheritance stack", function(){
     });
 
 });
+
 
 

@@ -1,4 +1,4 @@
-var Class = require('uclass');
+var Class = require('../');
 var merge = require("mout/object/merge")
 
 var Options = new Class({
@@ -8,8 +8,6 @@ var Options = new Class({
           tmp = Object.getPrototypeOf(this);
       while(tmp) {
         optionsStack.push(tmp.options);
-        if(!tmp.constructor)
-          break;
         tmp = tmp.constructor.parent;
       }
       optionsStack.push({});

@@ -1,4 +1,4 @@
-var Class = require('uclass');
+var Class = require('../');
 var guid  = require('mout/random/guid');
 var forIn  = require('mout/object/forIn');
 

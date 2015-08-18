@@ -6,7 +6,7 @@ var Class = require('../')
 var Options = require('../options');
 
 var Foo = new Class({
-  Implements : [Options],
+  Implements : Options,
   options : {
     foo : 'bar',
   },
@@ -43,7 +43,7 @@ describe("Testing options", function(){
 
 
 var Foo2 = new Class({
-  Implements : [Options],
+  Implements : Options,
   options : {
     foo : 'bar',
   },

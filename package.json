@@ -1,10 +1,10 @@
 {
   "name": "uclass",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "uclass is a micro class that mimic mootools' base Class.js & Class.Mutator.Bind syntax, without the inheritence stack. There is no runtime overload as this is just a syntax wrapper around javascript native Prototype.\r Feel free to switch to a proper framework (e.g. mootools :)  anytime after.",
   "main": "uClass.js",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha test/*"
+    "test": "node node_modules/istanbul/lib/cli.js  cover node_modules/mocha/bin/_mocha test/"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
+    "istanbul": "^0.3.18",
     "mocha": "^2.2.5"
   }
 }

@@ -4,11 +4,6 @@ var merge = require("mout/object/merge");
 var kindOf = require("mout/lang/kindOf");
 
 
-Function.prototype.static = function(){
-  this.$static = true;
-  return this;
-}
-
 //from http://javascript.crockford.com/prototypal.html
 
 var verbs = /^Implements|Extends|Binds$/
@@ -57,14 +52,11 @@ var uClass = function(proto){
         self[key] = v;
     }
 
-    if(proto.Implements) {
-      if (kindOf(proto.Implements) !== "Array")
-        proto.Implements = [proto.Implements];
-
+    if(proto.Implements)
       proto.Implements.forEach(function(Mixin){
         Mixin.call(self);
       });
-    }
+
 
 
 
