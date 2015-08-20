@@ -34,7 +34,7 @@ var EventEmitter = new Class({
   once:function(event, callback){
     var self = this;
     var once = function(){
-      self.removeListener(event, once);
+      self.off(event, once);
       callback.apply(null, arguments);
     };
 
@@ -42,7 +42,9 @@ var EventEmitter = new Class({
   },
 
   off:function(event, callback){
-    forIn(this.callbacks[event] || {}, function(v, k) {
+    if(!callback)
+      delete this.callbacks[event];
+    else forIn(this.callbacks[event] || {}, function(v, k) {
       if(v == callback)
         delete this.callbacks[event][k];
     }, this);

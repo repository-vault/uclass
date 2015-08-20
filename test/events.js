@@ -33,6 +33,7 @@ describe("events testing", function(){
     });
 
 
+
     it("should be well binded", function(){
         var time = new Time(8, 55);
         var a = 0, inc = function(){
@@ -63,7 +64,25 @@ describe("events testing", function(){
         time.emit("foo");
         expect(a).to.be(1);
         expect(b).to.be(1);
+
+        time.off("foo", binc);
+
+        time.emit("foo");
+        expect(a).to.be(1);
+        expect(b).to.be(1);
+
     });
+
+
+    it("should not bother unsubscribe unknow events", function(){
+        var time = new Time(8, 55);
+        var inc = function(){ };
+        time.off("foo", inc);
+        time.off("fooa");
+
+    });
+
+
 
 
     it("should support complex mixing once & on", function(){
@@ -74,17 +93,26 @@ describe("events testing", function(){
             b += 1;
         };
 
-        time.once("foo", ainc);
+        time.on("foo", ainc);
         time.on("foo", binc);
-
 
         time.emit("foo");
         expect(a).to.be(1);
         expect(b).to.be(1);
 
+        time.off("foo", ainc);
         time.emit("foo");
         expect(a).to.be(1);
         expect(b).to.be(2);
+
+        time.off("foo", ainc);
+        time.off("foo"); //remove binc
+
+        time.emit("foo");
+        expect(a).to.be(1);
+        expect(b).to.be(2);
+
+
 
     });
 
