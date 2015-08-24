@@ -8,8 +8,10 @@ var EventEmitter = new Class({
   callbacks : {},
 
   initialize : function() {
+    var self = this;
     this.addEvent = this.on;
     this.removeListener = this.off;
+    this.removeAllListeners = this.off;
     this.fireEvent = this.emit;
   },
 
@@ -42,7 +44,9 @@ var EventEmitter = new Class({
   },
 
   off:function(event, callback){
-    if(!callback)
+    if(!event)
+      this.callbacks = {};
+    else if(!callback)
       this.callbacks[event] = {};
     else forIn(this.callbacks[event] || {}, function(v, k) {
       if(v == callback)

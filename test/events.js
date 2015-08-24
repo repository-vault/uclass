@@ -113,7 +113,25 @@ describe("events testing", function(){
         expect(b).to.be(2);
 
 
+    });
 
+
+    it("should remove all events", function(){
+        var time = new Time(8, 55);
+        var b = 0, a = 0, ainc = function(){
+            a += 1;
+        }, binc = function(){
+            b += 1;
+        };
+
+        time.on("foo", ainc);
+        time.on("foo", binc);
+
+        time.off(); //remove all
+
+        time.emit("foo");
+        expect(a).to.be(0);
+        expect(b).to.be(0);
     });
 
 
