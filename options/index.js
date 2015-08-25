@@ -1,3 +1,5 @@
+"use strict";
+
 var Class = require('../');
 var merge = require("mout/object/merge")
 

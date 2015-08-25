@@ -1,3 +1,5 @@
+"use strict";
+
 var hasOwn = require("mout/object/hasOwn");
 var create = require("mout/lang/createObject");
 var merge = require("mout/object/merge");

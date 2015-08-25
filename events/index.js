@@ -1,3 +1,5 @@
+"use strict";
+
 var Class = require('../');
 var guid  = require('mout/random/guid');
 var forIn  = require('mout/object/forIn');
