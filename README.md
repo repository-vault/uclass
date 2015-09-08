@@ -9,7 +9,8 @@ uclass is a micro class that mimic mootools' base Class.js & Class.Mutator.Bind 
 # Example
 
 ```
-var Class = require('uclass');
+var Class  = require('uclass');
+var statik = require('uclass/static');
 
 var Ball = new Class({
  Binds:['step'], //force 
@@ -27,7 +28,13 @@ var Ball = new Class({
  step:function(){
   this.position[0] += this.direction[0];
   this.position[1] += this.direction[1];
- }
+ },
+
+
+ generate : statik( function(radius, position){
+    return new Ball(radius, position);
+ } ),
+
 });
 
 var ball = new Ball(12);
@@ -42,9 +49,13 @@ Implements : [
   require('events').EventEmitter, //for node
   require('uclass/events'),       //for the browser
   require('uclass/options'),      //add setOptions (merge(this.options))
+  require('uclass/static'),       //declare a static member
 }
 
 ```
+
+
+
 
 #License
 MIT License style, please distribute & credit me somewhere.
