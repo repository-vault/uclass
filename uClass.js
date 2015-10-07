@@ -2,8 +2,9 @@
 
 var hasOwn = require("mout/object/hasOwn");
 var create = require("mout/lang/createObject");
-var merge = require("mout/object/merge");
+var merge  = require("mout/object/merge");
 var kindOf = require("mout/lang/kindOf");
+var mixIn  = require("mout/object/mixIn");
 
 
 //from http://javascript.crockford.com/prototypal.html
@@ -38,7 +39,8 @@ var uClass = function(proto){
       //autobinding takes place here
     if(proto.Binds) proto.Binds.forEach(function(f){
       var original = self[f];
-      if(original) self[f] = self[f].bind(self);
+      if(original)
+        self[f] = mixIn(self[f].bind(self), original);
     });
 
       //clone non function/static properties to current instance
