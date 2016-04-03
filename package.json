@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/131/uclass",
   "dependencies": {
-    "mout": "^0.11.0"
+    "mout": "^1.0.0"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
