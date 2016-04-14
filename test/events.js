@@ -133,6 +133,15 @@ describe("events testing", function(){
         expect(a).to.be(0);
         expect(b).to.be(0);
     });
+    
+     it("should not register a no function events", function(){
+        var time = new Time();
+        time.on("testEvent" , 5)
+        time.on("testEvent" , {})
+        
+        expect(time.callbacks).to.eql({});
+
+    });
 
 
 
@@ -155,7 +164,6 @@ var Clock = new Class({
 
 
 describe("derivated event testing", function(){
-
 
     it("should fire every time", function(){
         var time = new Clock(8, 55);
@@ -185,10 +193,6 @@ describe("derivated event testing", function(){
         c.emit("fooa");
         expect(a).to.be(2);
     });
-
-
-
-
 
 
 });

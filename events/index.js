@@ -30,6 +30,8 @@ var EventEmitter = new Class({
 
 
   on:function(event, callback){
+    if(typeof callback != "function")
+      return console.log("you try to register a non function in " , event)
     if(!this.callbacks[event])
       this.callbacks[event] = {};
     this.callbacks[event][guid()] = callback;
@@ -39,9 +41,10 @@ var EventEmitter = new Class({
     var self = this;
     var once = function(){
       self.off(event, once);
-      callback.apply(null, arguments);
+      self.off(event, callback);
     };
 
+    this.on(event, callback);
     this.on(event, once);
   },
 
