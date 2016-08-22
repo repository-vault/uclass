@@ -47,7 +47,9 @@ var uClass = function(proto){
     for(var key in out.prototype) {
       var v = out.prototype[key], t = kindOf(v);
 
-      if(key.match(verbs) || t === "Function") continue;
+      if(key.match(verbs) || t === "Function" || t == "GeneratorFunction")
+        continue;
+
       if(t == "Object")
         self[key] = merge({}, self[key]); //create(null, self[key]);
       else if(t == "Array")
