@@ -1,6 +1,6 @@
 {
   "name": "uclass",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "uclass is a micro class that mimic mootools' base Class.js & Class.Mutator.Bind syntax, without the inheritence stack. There is no runtime overload as this is just a syntax wrapper around javascript native Prototype.\r Feel free to switch to a proper framework (e.g. mootools :)  anytime after.",
   "main": "uClass.js",
   "scripts": {
