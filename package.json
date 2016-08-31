@@ -1,6 +1,6 @@
 {
   "name": "uclass",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "uclass is a 'before ES6' class syntax that mimics mootools/base.js & Class.Mutator.Bind syntax. There is no runtime overload as this is just a syntax wrapper around javascript native Prototype.\r Feel free to switch to a ES6 classes / Typescript  anytime after.",
   "main": "uClass.js",
   "scripts": {
