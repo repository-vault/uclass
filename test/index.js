@@ -2,6 +2,7 @@
 
 var expect = require('expect.js')
 var Class = require('../')
+var implement = require('../implement');
 
 var Animal = new Class({
 
@@ -204,7 +205,7 @@ describe('prime creation', function(){
 
         var rover = new Dog('rover');
 
-        Dog.implement({
+        implement(Dog, {
             jump: function(){
                 return 'dog:jump:' + this.name;
             }
@@ -223,7 +224,7 @@ describe('prime creation', function(){
 
         var rover = new Dog('rover');
 
-        Animal.implement({
+        implement(Animal, {
             jump: function(){
                 return 'animal:jump:' + this.name;
             }
@@ -243,7 +244,7 @@ describe('prime creation', function(){
         var rover = new Dog('rover');
         expect(rover.say()).to.be('animal:say:rover');
 
-        Animal.implement({
+        implement(Animal, {
             say: function(){
                 return 'NEW:animal:say:' + this.name;
             }
@@ -264,7 +265,7 @@ describe('prime::implement', function(){
             Extends: Animal
         });
 
-        Dog.implement(new Actions);
+        implement(Dog, new Actions);
 
         var rover = new Dog('rover');
 
@@ -278,7 +279,7 @@ describe('prime::implement', function(){
             Extends: Animal
         });
 
-        Dog.implement(new Actions).implement(new Attributes);
+        implement(implement(Dog, new Actions), new Attributes);
 
         var rover = new Dog('rover');
 
@@ -294,7 +295,7 @@ describe('prime::implement', function(){
             Extends: Animal
         });
 
-        Dog.implement({
+        implement(Dog, {
             bark: function(){
                 return 'woof!';
             },

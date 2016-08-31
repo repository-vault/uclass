@@ -6,21 +6,9 @@ var merge  = require("mout/object/merge");
 var kindOf = require("mout/lang/kindOf");
 var mixIn  = require("mout/object/mixIn");
 
-
-//from http://javascript.crockford.com/prototypal.html
-
+var implement = require('./implement');
 var verbs = /^Implements|Extends|Binds$/
 
-var implement = function(obj){
-  for(var key in obj) {
-    if(key.match(verbs)) continue;
-    if((typeof obj[key] == 'function') && obj[key].$static)
-      this[key] = obj[key];
-    else
-      this.prototype[key] = obj[key];
-  }
-  return this;
-}
 
 
 
@@ -69,8 +57,6 @@ var uClass = function(proto){
     constructor.apply(this, arguments);
   }
 
-  out.implement = implement;
-
 
   if (superprime) {
     // inherit from superprime
@@ -94,11 +80,11 @@ var uClass = function(proto){
     if (kindOf(proto.Implements) !== "Array")
       proto.Implements = [proto.Implements];
     proto.Implements.forEach(function(Mixin){
-      out.implement(Mixin.prototype);
+      implement(out, Mixin.prototype);
     });
   }
 
-  out.implement(proto);
+  implement(out, proto);
   if(proto.Binds)
      out.prototype.Binds = proto.Binds;
   if(proto.Implements)
