@@ -1,10 +1,11 @@
 {
   "name": "uclass",
   "version": "2.4.0",
-  "description": "uclass is a 'before ES6' class syntax that mimics mootools/base.js & Class.Mutator.Bind syntax. There is no runtime overload as this is just a syntax wrapper around javascript native Prototype.\r Feel free to switch to a ES6 classes / Typescript  anytime after.",
+  "description": "uclass is a 'before ES6' class syntax. Feel free to switch to a ES6 classes / Typescript  anytime after.",
   "main": "uClass.js",
   "scripts": {
-    "test": "node node_modules/istanbul/lib/cli.js  cover node_modules/mocha/bin/_mocha"
+    "test": "node node_modules/istanbul/lib/cli.js  cover --report text-summary --report html --report lcov  node_modules/mocha/bin/_mocha",
+    "coveralls": "npm install coveralls && node ./node_modules/coveralls/bin/coveralls.js < ./coverage/lcov.info"
   },
   "repository": {
     "type": "git",

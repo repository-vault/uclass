@@ -1,6 +1,7 @@
 # Motivation
 
-uclass is a micro class that mimic mootools' base Class.js & Class.Mutator.Bind syntax, with prime's inheritance stack (as in, explicit parent binding). There is no runtime overload as this is just a syntax wrapper around javascript native Prototype.
+[uclass](https://github.com/131/uclass) is a class syntax helper for javascript (mostly an ES5 classes syntax). It's inspired by Mootools/Class (with Class.Mutator.Bind)  & prime projects.
+There is **no runtime overload** as this is just a syntax wrapper around javascript native Prototype. uClass "classes" are fully interoperable with ES6 classes (i.e they can "extend" each other)
 
 * As in prime, uclass use mout for javascript utilities.
 * As in primish, uclass keep the old "Extends" & "Implements" design/syntax.
@@ -13,7 +14,7 @@ var Class  = require('uclass');
 var statik = require('uclass/static');
 
 var Ball = new Class({
- Binds:['step'], //force 
+ Binds:['step'], //
   
  color :'red',
  direction:[0,0],
@@ -54,8 +55,16 @@ Implements : [
 
 ```
 
-
-
-
 #License
 MIT License style, please distribute & credit me somewhere.
+
+
+# Why
+Just use ES6 classes, but if you don't want to, this is properly maintened, tested & covered
+
+
+# Credits
+* [131](https://github.com/131)
+
+[![Coverage Status](https://coveralls.io/repos/github/131/uclass/badge.svg?branch=master)](https://coveralls.io/github/131/uclass?branch=master)
+[![Build Status](https://travis-ci.org/131/uclass.svg?branch=master)](https://travis-ci.org/131/uclass)
