@@ -7,6 +7,12 @@ There is **no runtime overload** as this is just a syntax wrapper around javascr
 * As in primish, uclass keep the old "Extends" & "Implements" design/syntax.
 
 
+[![Coverage Status](https://coveralls.io/repos/github/131/uclass/badge.svg?branch=master)](https://coveralls.io/github/131/uclass?branch=master)
+[![Build Status](https://travis-ci.org/131/uclass.svg?branch=master)](https://travis-ci.org/131/uclass)
+[![Version](https://img.shields.io/npm/v/uclass.svg)](https://www.npmjs.com/package/uclass)
+
+
+
 # Example
 
 ```
@@ -65,6 +71,3 @@ Just use ES6 classes, but if you don't want to, this is properly maintened, test
 
 # Credits
 * [131](https://github.com/131)
-
-[![Coverage Status](https://coveralls.io/repos/github/131/uclass/badge.svg?branch=master)](https://coveralls.io/github/131/uclass?branch=master)
-[![Build Status](https://travis-ci.org/131/uclass.svg?branch=master)](https://travis-ci.org/131/uclass)
